@@ -11,9 +11,9 @@ class UsersController < ApplicationController
     @user.password_confirmation = params[:user][:password_confirmation]
 
     if @user.save
-      @user.set_confirm_token
+      @user.set_confirmation_token
       @user.save(validate: false)
-      UserMailer.registration_confirmation(@user).deliver_now
+      UserMailer.sign_up_confirmation(@user).deliver_now
       flash[:notice] = "Welcome to Blocipedia #{@user.name}, please confirm your email"
       redirect_to root_path
     else

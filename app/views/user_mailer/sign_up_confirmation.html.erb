@@ -7,7 +7,7 @@
     <h1>Welcome,<%= @user.name%>!</h1>
     <p>To confirm your registration click the URL below.</p>
     <p>
-      <%= link_to "confirm", confirm_email_url(@user.confirm_token, localhost:3000) %>
+      <%= link_to "confirm", confirm_email_url(@user.confirm_token, host: "http://localhost:3000") %>
     </p>
   </body>
 </html>

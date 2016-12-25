@@ -3,6 +3,6 @@ class ApplicationMailer < ActionMailer::Base
 
   def sign_up_confirmation(user)
     @user = user
-    mail(to: user.email, :subject "Sign Up Confirmation for Blocipedia")
+    mail(to: user.email, subject: "Sign Up Confirmation for Blocipedia")
   end
 end
