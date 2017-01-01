@@ -1,12 +1,17 @@
 Rails.application.routes.draw do
+  get 'password_resets/new'
+
+  get 'password_resets/edit'
+
   get 'welcome/index'
 
   get 'welcome/about'
 
   root 'welcome#index'
 
-  resources :users, only: [:new, :create]
-
+  resources :users, only: [:new, :create, :show]
+  resources :sessions, only: [:new, :create, :destroy]
+  resources :password_resets, only: [:new, :create, :edit, :update]
   get '/:token/confirm_email_url', :to => "users#confirm_email", as: 'confirm_email'
 
   # The priority is based upon order of creation: first created -> highest priority.

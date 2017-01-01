@@ -1,7 +1,10 @@
+require 'random_data'
 FactoryGirl.define do
-  factory :user do
-    name "MyString"
-    email "MyString"
-    password_digest "MyString"
-  end
-end
+   pw = RandomData.random_sentence
+   factory :user do
+     name RandomData.random_name
+     sequence(:email){|n| "user#{n}@factory.com" }
+     password pw
+     password_confirmation pw
+   end
+ end

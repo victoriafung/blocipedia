@@ -192,7 +192,7 @@ DEPENDENCIES
   bootstrap-sass
   byebug
   coffee-rails (~> 4.1.0)
-  factory_girl_rails
+  factory_girl_rails (~> 4.0)
   faker
   figaro
   jquery-rails
