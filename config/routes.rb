@@ -1,7 +1,17 @@
 Rails.application.routes.draw do
   resources :wikis
   get 'about' => 'welcome#about'
+
+  get 'password_resets/new'
+
+  get 'password_resets/edit'
+
   root 'welcome#index'
+
+  resources :users, only: [:new, :create, :show]
+  resources :sessions, only: [:new, :create, :destroy]
+  resources :password_resets, only: [:new, :create, :edit, :update]
+  get '/:token/confirm_email_url', :to => "users#confirm_email", as: 'confirm_email'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

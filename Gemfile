@@ -19,7 +19,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   gem 'shoulda'
   gem 'faker'
-  gem 'factory_girl_rails'
+  gem 'factory_girl_rails', '~> 4.0'
 end
 
 gem 'sass-rails', '~> 5.0'
@@ -30,3 +30,4 @@ gem 'turbolinks'
 gem 'bootstrap-sass'
 gem 'figaro'
 gem 'pry'
+gem 'bcrypt'

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <h1>Welcome,<%= @user.name%>!</h1>
+    <p>To confirm your registration click the URL below.</p>
+    <p>
+      <%= link_to "confirm", confirm_email_url(@user.confirm_token, host: "http://localhost:3000") %>
+    </p>
+  </body>
+</html>
