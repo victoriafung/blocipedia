@@ -19,6 +19,14 @@ class WikisController < ApplicationController
     @wiki = Wiki.find(params[:id])
     @wiki.title = params[:wiki][:title]
     @wiki.body = params[:wiki][:body]
+    authorize @wiki
+    if @wiki.update(post_params)
+      flash[:notice] = "Wiki was updated."
+      redirect_to @wiki
+    else
+      flash.now[:alert] = "You cannot update this wiki. Please try again."
+      render :edit
+    end
 
     if @wiki.save
       flash[:notice] = "Wiki was saved."
@@ -40,5 +48,5 @@ class WikisController < ApplicationController
       render :show
     end
   end
-  
+
 end

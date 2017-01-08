@@ -30,5 +30,13 @@ RSpec.describe User, type: :model do
     it "should be an invalid user due to blank email" do
       expect(user_with_invalid_email).to_not be_valid
     end
+
+    it "responds to role" do
+      expect(user).to respond_to(:role)
+    end
+
+    it "responds to admin?" do
+      expect(user).to respond_to(:admin?)
+    end
   end
 end

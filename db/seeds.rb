@@ -8,16 +8,38 @@
 require 'random_data'
 
  # Create Posts
- 20.times do
- # #1
-   Wiki.create!(
- # #2
-     title:  RandomData.random_word,
-     body:   RandomData.random_paragraph
-   )
- end
- posts = Wiki.all
+ wikis = Wiki.all
 
+ admin = User.create!(
+    name:     'Admin User',
+    email:    'admin@example.com',
+    password: 'helloworld',
+    role:     'admin'
+  )
+
+  standard = User.create!(
+    name:     'standard User',
+    email:    'standard@example.com',
+    password: 'standard'
+    role: 'standard'
+  )
+
+  premium = User.create!(
+    name:     'premium User',
+    email:    'premium@example.com',
+    password: 'premium',
+    role: 'premium'
+  )
+
+  20.times do
+  # #1
+    Wiki.create!(
+  # #2
+      title:  RandomData.random_word,
+      body:   RandomData.random_paragraph,
+      user_id: User.first.id
+    )
+  end
 
  puts "Seed finished"
  puts "#{Wiki.count} wikis created"
