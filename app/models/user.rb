@@ -1,7 +1,10 @@
 class User < ActiveRecord::Base
+  enum role: [:admin, :standard, :premium]
+
   has_many :wikis
   before_save { self.email = email.downcase if email.present? }
   before_create :set_confirmation_token
+  before_save { self.role ||= :standard }
   attr_accessor :reset_token
   after_initialize :init
 
@@ -13,10 +16,10 @@ class User < ActiveRecord::Base
             uniqueness: { case_sensitive: false },
             length: { minimum: 5, maximum: 254 }
 
-has_secure_password
+  has_secure_password
 
   def init
-    self.role ||= 0
+    self.role ||= :standard
   end
 
   def set_confirmation_token
@@ -27,9 +30,8 @@ has_secure_password
 
 
   private
-    def validate_email
-      self.email_confirmed = true
-      self.confirm_token = nil
-    end
-
+  def validate_email
+    self.email_confirmed = true
+    self.confirm_token = nil
+  end
 end

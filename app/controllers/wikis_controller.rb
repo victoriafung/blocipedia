@@ -1,4 +1,6 @@
 class WikisController < ApplicationController
+  after_action :verify_authorized, only: [:destroy]
+
   def index
     @wikis = Wiki.all
   end
@@ -14,31 +16,32 @@ class WikisController < ApplicationController
   def edit
     @wiki = Wiki.find(params[:id])
   end
-
-  def update
-    @wiki = Wiki.find(params[:id])
-    @wiki.title = params[:wiki][:title]
-    @wiki.body = params[:wiki][:body]
-    authorize @wiki
-    if @wiki.update(post_params)
-      flash[:notice] = "Wiki was updated."
-      redirect_to @wiki
-    else
-      flash.now[:alert] = "You cannot update this wiki. Please try again."
-      render :edit
-    end
-
-    if @wiki.save
-      flash[:notice] = "Wiki was saved."
-      redirect_to @wiki
-    else
-      flash.now[:alert] = "Wiki was unable to save. Please try again."
-      render :edit
-    end
-  end
+  #
+  # def update
+  #   @wiki = Wiki.find(params[:id])
+  #   @wiki.title = params[:wiki][:title]
+  #   @wiki.body = params[:wiki][:body]
+  #   # authorize @wiki
+  #   if @wiki.update(post_params)
+  #     flash[:notice] = "Wiki was updated."
+  #     redirect_to @wiki
+  #   else
+  #     flash.now[:alert] = "You cannot update this wiki. Please try again."
+  #     render :edit
+  #   end
+  #
+  #   if @wiki.save
+  #     flash[:notice] = "Wiki was saved."
+  #     redirect_to @wiki
+  #   else
+  #     flash.now[:alert] = "Wiki was unable to save. Please try again."
+  #     render :edit
+  #   end
+  # end
 
   def destroy
     @wiki = Wiki.find(params[:id])
+    authorize @wiki
 
     if @wiki.destroy
       flash[:notice] = "#{@wiki.title} was deleted successfully."
@@ -48,5 +51,12 @@ class WikisController < ApplicationController
       render :show
     end
   end
+
+  def authorize_user
+     unless current_user.admin?
+       flash[:alert] = "You must be an admin to do that."
+       redirect_to wikis_path
+     end
+   end
 
 end

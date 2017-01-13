@@ -7,10 +7,9 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 require 'random_data'
 
- # Create Posts
- wikis = Wiki.all
+wikis = Wiki.all
 
- admin = User.create!(
+  admin = User.create!(
     name:     'Admin User',
     email:    'admin@example.com',
     password: 'helloworld',
@@ -32,9 +31,7 @@ require 'random_data'
   )
 
   20.times do
-  # #1
     Wiki.create!(
-  # #2
       title:  RandomData.random_word,
       body:   RandomData.random_paragraph,
       user_id: User.first.id
