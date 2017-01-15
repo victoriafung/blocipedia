@@ -1,7 +1,12 @@
 class User < ActiveRecord::Base
+  enum role: [:admin, :standard, :premium]
+
+  has_many :wikis
   before_save { self.email = email.downcase if email.present? }
   before_create :set_confirmation_token
+  before_save { self.role ||= :standard }
   attr_accessor :reset_token
+  after_initialize :init
 
   validates :name, length: { minimum: 1, maximum: 100 }, presence: true
   validates :password, presence: true, length: { minimum: 6 }, if: "password_digest.nil?"
@@ -11,8 +16,11 @@ class User < ActiveRecord::Base
             uniqueness: { case_sensitive: false },
             length: { minimum: 5, maximum: 254 }
 
-has_secure_password
+  has_secure_password
 
+  def init
+    self.role ||= :standard
+  end
 
   def set_confirmation_token
     if self.confirm_token.blank?
@@ -20,18 +28,10 @@ has_secure_password
     end
   end
 
-  def create_reset_digest
-    update_attribute(:reset_digest, User.digest(reset_token))
-  end
-
-  def send_password_reset_email
-    UserMailer.password_reset(self).deliver_now
-  end
 
   private
-    def validate_email
-      self.email_confirmed = true
-      self.confirm_token = nil
-    end
-
+  def validate_email
+    self.email_confirmed = true
+    self.confirm_token = nil
+  end
 end
