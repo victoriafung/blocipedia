@@ -17,24 +17,24 @@ wikis = Wiki.all
   )
 
   standard = User.create!(
-    name:     'standard User',
+    name:     'Standard User',
     email:    'standard@example.com',
-    password: 'standard'
-    role: 'standard'
+    password: 'standard',
+    role:     'standard'
   )
 
   premium = User.create!(
     name:     'premium User',
     email:    'premium@example.com',
     password: 'premium',
-    role: 'premium'
+    role:     'premium'
   )
 
   20.times do
     Wiki.create!(
       title:  RandomData.random_word,
       body:   RandomData.random_paragraph,
-      user_id: User.first.id
+      user_id: User.first.id,
     )
   end
 

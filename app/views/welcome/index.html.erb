@@ -10,3 +10,10 @@
     <% end %>
   </p>
 </div>
+
+  <% if current_user && current_user.standard? %>
+    <%= link_to "Upgrade?", new_charge_path, class: 'btn btn-primary' %>
+
+  <% elsif current_user && current_user.premium? %>
+    <%= link_to "Downgrade?", '', class: 'btn btn-primary' %>
+  <% end %>
