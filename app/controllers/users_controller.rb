@@ -27,4 +27,10 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
   end
+
+  def downgrade
+    current_user.downgrade!
+      #flash a message that you downgraded?
+    #where do you want to redirect to after they have downgraded
+  end
 end

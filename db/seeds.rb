@@ -16,35 +16,26 @@ require 'faker'
     user.save!
   end
 
-  unless User.find_by(email: 'admin@example.com')
-    admin = User.new(
+    User.create!(
       name:     'Admin User',
       email:    'admin@example.com',
       password: 'adminadmin',
-      role:     'admin'
+      role: 'admin'
     )
-    admin.save!
-  end
 
-  unless User.find_by(email: 'premium@example.com')
-    premium = User.new(
+    User.create!(
       name:     'Premium User',
       email:    'premium@example.com',
       password: 'premium',
       role:     'premium'
     )
-    premium.save!
-  end
 
-  unless User.find_by(email: 'standard@example.com')
-    standard = User.new(
+    User.create!(
       name:     'Standard User',
       email:    'standard@example.com',
       password: 'standard',
       role:     'standard'
     )
-    standard.save!
-  end
 
   users = User.all
 

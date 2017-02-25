@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   resources :password_resets, only: [:new, :create, :edit, :update]
   get '/:token/confirm_email_url', :to => "users#confirm_email", as: 'confirm_email'
 
+  put 'users/downgrade' => 'users/registrations#downgrade', as: 'downgrade_user_registration' 
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

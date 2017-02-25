@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   before_create :set_confirmation_token
   before_save { self.role ||= :standard }
   attr_accessor :reset_token
-  before_create :default_standard
+  # before_create :default_standard
 
   validates :name, length: { minimum: 1, maximum: 100 }, presence: true
   validates :password, presence: true, length: { minimum: 6 }, if: "password_digest.nil?"

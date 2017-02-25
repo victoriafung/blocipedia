@@ -10,7 +10,17 @@ class WikisController < ApplicationController
   end
 
   def new
-    @wikis = Wiki.new
+    @wiki = Wiki.new
+    @wiki.title = params[:wiki][:title]
+    @wiki.body = params[:wiki][:body]
+
+    if @wiki.save
+      flash[:notice] = "Wiki was created."
+      redirect_to @wiki
+    else
+      flash.now[:alert] = "Wiki was unable to save. Please try again."
+      render :edit
+    end
   end
 
   def edit
@@ -21,23 +31,24 @@ class WikisController < ApplicationController
     @wiki = Wiki.find(params[:id])
     @wiki.title = params[:wiki][:title]
     @wiki.body = params[:wiki][:body]
-    authorize @wiki
-
-    if @wiki.update_attributes(permitted_attributes(@wiki))
-      flash[:notice] = "Wiki was updated."
-      redirect_to @wiki
-    else
-      flash.now[:alert] = "You cannot update this wiki. Please try again."
-      render :edit
-    end
-
-    # if @wiki.save
-    #   flash[:notice] = "Wiki was saved."
+    @wiki.user = current_user
+    # authorize @wiki
+    #
+    # if @wiki.update_attributes(permitted_attributes(@wiki))
+    #   flash[:notice] = "Wiki was updated."
     #   redirect_to @wiki
     # else
-    #   flash.now[:alert] = "Wiki was unable to save. Please try again."
+    #   flash.now[:alert] = "You cannot update this wiki. Please try again."
     #   render :edit
     # end
+    #
+    if @wiki.save
+      flash[:notice] = "Wiki was saved."
+      redirect_to @wiki
+    else
+      flash.now[:alert] = "Wiki was unable to save. Please try again."
+      render :edit
+    end
   end
 
   def destroy
