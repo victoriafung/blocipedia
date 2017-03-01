@@ -2,7 +2,11 @@ class WikisController < ApplicationController
   after_action :verify_authorized, only: [:destroy]
 
   def index
-    @wikis = Wiki.all
+    if user_can_view_private_wiki?
+      @wikis = Wiki.all
+    else
+      @wikis = Wiki.public?
+    end
   end
 
   def show
@@ -11,8 +15,13 @@ class WikisController < ApplicationController
 
   def new
     @wiki = Wiki.new
+  end
+
+  def create
+    @wiki = Wiki.new
     @wiki.title = params[:wiki][:title]
     @wiki.body = params[:wiki][:body]
+    @wiki.user_id = current_user.id
 
     if @wiki.save
       flash[:notice] = "Wiki was created."
@@ -32,16 +41,7 @@ class WikisController < ApplicationController
     @wiki.title = params[:wiki][:title]
     @wiki.body = params[:wiki][:body]
     @wiki.user = current_user
-    # authorize @wiki
-    #
-    # if @wiki.update_attributes(permitted_attributes(@wiki))
-    #   flash[:notice] = "Wiki was updated."
-    #   redirect_to @wiki
-    # else
-    #   flash.now[:alert] = "You cannot update this wiki. Please try again."
-    #   render :edit
-    # end
-    #
+
     if @wiki.save
       flash[:notice] = "Wiki was saved."
       redirect_to @wiki
@@ -71,4 +71,10 @@ class WikisController < ApplicationController
      end
    end
 
+   private
+
+   def user_can_view_private_wiki?
+     #might need to add logic if the user is signed in...
+     (current_user.admin? || current_user.premium?)
+   end
 end

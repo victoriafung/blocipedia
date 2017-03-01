@@ -15,5 +15,5 @@
     <%= link_to "Upgrade?", new_charge_path, class: 'btn btn-primary' %>
 
   <% elsif current_user && current_user.premium? %>
-    <%= link_to "Downgrade?", downgrade_user_registration_path, method: put, class: 'btn btn-primary' %>
+    <%= link_to "Downgrade?", downgrade_user_registration_path, class: 'btn btn-primary' %>
   <% end %>

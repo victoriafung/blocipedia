@@ -4,14 +4,18 @@
   <% end %>
   <div class="row">
   </br>
-
-
       <div class="col-md-8">
         <% @wikis.each do |wiki| %>
           <div class="media">
             <div class="media-body">
               <h4 class="media-heading">
+                <%= wiki.id %>
                 <%= link_to wiki.title, wiki %>
+                <% if wiki.private? %>
+                  <%= "private" %>
+                <% else %>
+                  <%= 'public' %>
+                <% end %>
               </h4>
             </div>
           </div>
