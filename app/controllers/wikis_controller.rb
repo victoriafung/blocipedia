@@ -3,7 +3,7 @@ class WikisController < ApplicationController
 
   def index
     if user_can_view_private_wiki?
-      @wikis = Wiki.all
+      @wikis = policy_scope(Wiki)
     else
       @wikis = Wiki.public?
     end
