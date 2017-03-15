@@ -1,11 +1,27 @@
-<%= form_for @collaborator do |f| %>
-  Add Collaborators
-  <div class="form-group">
-    <%= f.label :user_id %>
-    <%= f.collection_select :user_id, User.all, :id, :email  %>
-    <%= f.hidden_field :wiki_id, :value => @wiki.id %>
-  </div>
-  <div class="form-group">
-    <%= f.submit "Add Collaborator", class: 'btn btn-success' %>
-  </div>
-<% end %>
+<div class="col-md-8">
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Add Collaborator</th>
+      <th>Delete Collaborator</th>
+    </tr>
+    </thead>
+    <tbody>
+    <div class="field">
+      <% @user.each do |user| %>
+
+          <div class="form-group">
+            <tr>
+              <td><%= user.name %></td>
+              <td><%= user.email %></td>
+              <td><%= button_to "Add Collaborator", wiki_collaborators_path(@wiki.id), params: { user_id: user.id } %></td>
+              <td><%= button_to "Delete Collaborator", wiki_collaborator_path(@wiki, @user), method: :delete, params: { collaborated_users: user.id } %></td>
+            </tr>
+          </div>
+          </div>
+      <% end %>
+      </tbody>
+  </table>
+</div>

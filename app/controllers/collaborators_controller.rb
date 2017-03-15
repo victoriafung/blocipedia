@@ -1,38 +1,39 @@
 class CollaboratorsController < ApplicationController
+  def index
+  end
 
   def new
     @collaborator = Collaborator.new
-    @users = User.all
+    @user = User.all
+    @wiki = Wiki.find(params[:wiki_id])
   end
 
   def create
-    @collaborator = Collaborator.new
-    @wiki = params[:wiki_id]
-    # @collaborator.wiki_id = params[:wiki_id]
-    @collaborator.user_id = params['collaborator'][:user_id]
-    @collaborator.wiki_id = params['collaborator'][:wiki_id]
+    @wiki = Wiki.find(params[:wiki_id])
+    @collaborator = Collaborator.new(user_id: params[:user_id], wiki_id: params[:wiki_id])
 
     if @collaborator.save
-      flash[:notice] = 'Collaborator added'
-      redirect_to wiki_path(@wiki)
-
+      flash[:notice] = "You added a collaborator for your wiki."
+      redirect_to @wiki
     else
-      flash[:notice] = 'This is not a valid user'
-      redirect_to wiki_path(@wiki)
+      flash[:error] = "There was an error adding this collaborator. Please try again."
+      render :new
     end
+  end
+
+  def show
+    @collaborator = Collaborator.find(params[:wiki])
   end
 
   def destroy
-    @collaborator = Collaborator.find(params['collaborator'][:user_id])
-    @wiki = @collaborator.wiki
+    @wiki = Wiki.find(params[:wiki_id])
+    @collaborator = Collaborator.new(user_id: params[:user_id], wiki_id: params[:wiki_id])
 
     if @collaborator.destroy
       flash[:notice] = "Collaborator removed from wiki."
-      redirect_to wiki_path(@wiki.id)
+      redirect_to @wiki
     else
-      flash[:error] = "Collaborator could not be removed."
-      redirect_to wiki_path(@wiki.id)
+      flash[:error] = "There was an error deleting this collaborator. Please try again."
     end
   end
-
 end

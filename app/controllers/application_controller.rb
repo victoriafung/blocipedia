@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
     @current_user ||= User.find(session[:user_id])
   end
 
-private
+  private
   def user_not_authorized
     flash[:alert] = "You are not authorized"
     redirect_to(request.referrer || root_path)
