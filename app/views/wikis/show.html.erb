@@ -1,4 +1,7 @@
 <h1><%= markdown(@wiki.title) %></h1>
+<br> author: <%= @wiki.user.name %>
+<br> collaborators: <%= @wiki.collaborators %>
+
  <div class="row">
    <div class="col-md-8">
      <p><%= markdown(@wiki.body)%></p>
@@ -7,6 +10,8 @@
      <% if current_user.admin? || current_user.premium? || current_user = @wiki.user %>
        <%= link_to "Edit", edit_wiki_path(@wiki), class: 'btn btn-success' %>
        <%= link_to "Delete", @wiki, method: :delete, class: "btn btn-danger", data: {confirm: "Are you sure you want to delete this Wiki?"} %>
+       <br>
+       <%= link_to "Add collaborators", new_collaborator_path, class: 'btn btn-info' %>
      <% end %>
    </div>
  </div>

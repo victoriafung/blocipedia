@@ -10,7 +10,9 @@
             <div class="media-body">
               <h4 class="media-heading">
                 <%= wiki.id %>
-                <%= link_to wiki.markdown_title, wiki %>
+                <%= link_to markdown(wiki.title), wiki %>
+                <br> Author: <%= wiki.user.name %>
+                <br> Status:
                 <% if wiki.private? %>
                   <%= "private" %>
                 <% else %>

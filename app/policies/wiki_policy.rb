@@ -18,13 +18,14 @@ class WikiPolicy
    if user.admin? || user.owner_of?(post)
      [:title, :body]
    end
+ end
 
   class Scope
     attr_reader :user, :scope
 
       def initialize(user, scope)
-      @user = user
-      @scope = scope
+        @user = user
+        @scope = scope
       end
 
       def resolve
@@ -50,5 +51,4 @@ class WikiPolicy
           wikis # return the wikis array we've built up
       end
     end
- end
 end

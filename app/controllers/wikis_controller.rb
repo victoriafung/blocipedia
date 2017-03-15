@@ -14,6 +14,7 @@ class WikisController < ApplicationController
   end
 
   def new
+    @user_options = User.all.map { |u| [ u.email, u.id] }
     @wiki = Wiki.new
   end
 

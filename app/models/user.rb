@@ -1,7 +1,9 @@
 class User < ActiveRecord::Base
   enum role: [:admin, :standard, :premium]
 
-  has_many :wikis
+  has_many :wikis, through: :collaborators
+  has_many :collaborators
+
   before_save { self.email = email.downcase if email.present? }
   before_create :set_confirmation_token
   before_save { self.role ||= :standard }
@@ -40,7 +42,7 @@ class User < ActiveRecord::Base
     self.update_attribute(:role, 'standard')
   end
 
-  private
+private
   def default_standard
     self.role = 'standard'
   end
